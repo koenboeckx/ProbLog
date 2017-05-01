@@ -107,11 +107,8 @@ evidence([doc_words(a1) ~= [dna, evolution, dna, evolution],
 
 test(N) :-
     init,
-    generate_backward((doc_words(a1) ~= V1, doc_words(a2) ~= V2),L),
-    writeln(V1), writeln(V2),
     evidence(Evidence), writeln(Evidence),
     eval_query_distribution_eval(X, Evidence, [], topic_mixparams(topic1) ~= X, N, LP, _, _),
-    %writeln(LP), 
     writeln(' '),
     mean_dist(LP, S), zip([dna, evolution, parsing, phonology], S, VS), writeln(VS).
 
