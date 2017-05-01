@@ -99,9 +99,9 @@ doc_words(DocID, N, [Topic|Topics], [Word|Words]) :=
     doc_words(DocID, N1, Topics, Words).
     
 evidence([doc_words(a1) ~= [dna, evolution, dna, evolution],
-          %doc_words(a2) ~= [dna, evolution],
+          %doc_words(a2) ~= [dna, evolution, dna, evolution],
           doc_words(b1) ~= [parsing, phonology, parsing, phonology]
-          %doc_words(b2) ~= [parsing, phonology]
+          %doc_words(b2) ~= [parsing, phonology, parsing, phonology]
          ]).
   
 
