@@ -1,35 +1,42 @@
 %%% -*- Mode: Prolog; -*-
 
-P::choose_action(Goal, Transition, Action, N) :-
-    call(Goal, GoalState, N), % identifier N because multiple pushes
-    subquery(action_prior(Action), P, [call(Transition, GoalState)]).
+% 6 - Inference about Inference
+% Preferences - bis
+% 04/05/17
 
-0.5::action_prior(a); 0.5::action_prior(b). 
-                                       
-% food-preference
-values([0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]).
 :-use_module(library(lists)).
-food_pref(P) :-
-    values(Values),
-    select_uniform(food_pref, Values, P, _).
 
-P::flip(N) :- food_pref(P).
-goal_food(Goal, N) :-
-    (flip(N),  Goal=bagel;
-    \+flip(N), Goal=cookie).
-goal(Outcome, N) :-
-    goal_food(Outcome, N).
+choose_action(Action, ID) :-
+    goal(Goal,ID),
+    subquery(action(Action), P, [inner(Goal)]),
+    pr(Action, Goal, ID, P).
+P::pr(_,_,_,P).
 
-0.9::vending_machine(bagel); 0.1::vending_machine(cookie) :-
-    action_prior(a).
-0.1::vending_machine(bagel); 0.9::vending_machine(cookie) :-
-    action_prior(b).
+inner(Goal) :-
+    action(Action),
+    transition(Action, Goal).
 
-query(goal_food(_,4)).  % Set N > 3, to have 'unbiased' distribution
-                        % (= not directly linked to observation)
-% query(food_pref(_)).
+values(Values, N) :- % select N values between 0 and 1
+    findall(Y, (between(0, N, X), Y is X/N), Values).
+preference(Preference) :-
+    values(Values, 30),
+    select_uniform(preference, Values, Preference, _).
 
-evidence(choose_action(goal, vending_machine, b, 1)). % Sally pushes b, or ...
-%evidence(goal(cookie, 1)). % ...If Sally says she wants cookie
-evidence(choose_action(goal, vending_machine, b, 2)).
-evidence(choose_action(goal, vending_machine, b, 3)).
+0.5::action(a); 0.5::action(b).
+P::flip(N) :- preference(P).
+goal(bagel, ID) :- flip(ID).
+goal(cookie,ID) :- \+flip(ID).
+
+
+0.9::vending_machine(a, bagel); 0.1::vending_machine(a, cookie).
+0.1::vending_machine(b, bagel); 0.9::vending_machine(b, cookie).
+
+transition(Action, Result) :- vending_machine(Action, Result).
+
+query(goal(_,4)). % Set N > 3, to have 'unbiased' distribution
+                  % (= not directly linked to observation)
+
+evidence(choose_action(b, 1)).  % or
+%evidence(goal(cookie, 1)).     % alternative evidence
+evidence(choose_action(b, 2)).
+evidence(choose_action(b, 3)).
