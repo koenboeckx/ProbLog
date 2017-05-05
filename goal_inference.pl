@@ -1,5 +1,5 @@
 % 6 - Inference about Inference
-% Goal Inference - bis
+% Goal Inference 
 % 04/05/17
 
 choose_action(Action) :-
