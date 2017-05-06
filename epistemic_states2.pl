@@ -5,7 +5,7 @@
 
 :-use_module(library(lists)).
 
-0.7::next(go_on, N); 0.3::next(stop, N).
+0.3::next(go_on, N); 0.7::next(stop, N).
 
 action([], N) :- next(stop, N).
 action([], 0).
