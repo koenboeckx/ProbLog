@@ -49,7 +49,7 @@ dPMem(top, N) ~ val(X) :=
 dPMem(subordinate, N) ~ val(c(X, ParentCat)) :=
     dPMem(top, N) ~= ParentCat, 
     pick_a_stick(subordinate(ParentCat), 1, Index, N),
-    base_distr(subordinate, Index) ~= X).
+    base_distr(subordinate, Index) ~= X.
     
 % --------------------------------------------------------------------------------------------
 base_distr(top, N) ~ val(X) := gensym('t', X).
