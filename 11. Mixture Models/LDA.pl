@@ -92,11 +92,11 @@ doc_words(DocID, N, [Topic|Topics], [Word|Words]) :=
 doc_length(3) := true. % Must correspond with length of docs in evidence    
 evidence :=
     doc_words(a1) ~= [dna, evolution, dna],
-    %doc_words(a2) ~= [dna, evolution],
-    %doc_words(a3) ~= [dna, evolution, dna, evolution],
-    %doc_words(a4) ~= [dna, evolution, dna, evolution].
-    doc_words(b1) ~= [parsing, phonology, parsing].
-    %doc_words(b2) ~= [parsing, phonology, parsing, phonology].
+    doc_words(a2) ~= [dna, evolution, dna],
+    doc_words(a3) ~= [dna, evolution, dna],
+    doc_words(a4) ~= [dna, evolution, dna],
+    doc_words(b1) ~= [parsing, phonology, parsing],
+    doc_words(b2) ~= [parsing, phonology, parsing].
     
 first([],[]).
 first([_:s(X1,_)|T1], [X1|T2]) :-
