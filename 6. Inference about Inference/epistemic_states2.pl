@@ -45,7 +45,6 @@ transition(Action, Result) :- vending_machine(Action, Result).
 evidence(goal(cookie)).
 %evidence(vending_machine([a,a], cookie)).
 evidence(choose_action([a,a])).
-evidence(choose_action([a]), false).
 
 query(effects([a,a], _)).
 query(effects([a], _)).
